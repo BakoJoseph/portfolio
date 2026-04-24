@@ -21,6 +21,13 @@ export default function AboutSection({ RevealSection, SectionLabel, TiltCard, Gl
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
+  const socialLinks = [
+    { I: FiGithub, c: "#e9d8fd", href: "https://github.com/BakoJoseph", label: "GitHub" },
+    { I: FiLinkedin, c: "#60a5fa", href: "https://www.linkedin.com", label: "LinkedIn" },
+    { I: FiTwitter, c: "#38bdf8", href: "https://x.com", label: "Twitter" },
+    { I: FiMail, c: "#c084fc", href: "mailto:bakocodex@gmail.com", label: "Email" },
+  ];
+
   return (
     <section id="about" style={{ minHeight: "100vh", padding: isMobile ? "80px 4vw 60px" : isTablet ? "100px 4vw 70px" : "120px 5vw 80px", scrollMarginTop: 96 }}>
       <Reveal>
@@ -39,12 +46,21 @@ export default function AboutSection({ RevealSection, SectionLabel, TiltCard, Gl
               <p style={{ fontSize: isMobile ? 12 : 13, lineHeight: 1.9, color: "rgba(220,190,255,0.68)" }}>I architect distributed systems that operate at planetary scale. My obsession is the space where performance meets reliability — building APIs that breathe, databases that sing, and pipelines that never sleep.</p>
               <p style={{ fontSize: isMobile ? 12 : 13, lineHeight: 1.9, color: "rgba(220,190,255,0.68)", marginTop: 14 }}>When I'm not designing consensus algorithms or chasing p99 latencies, I'm contributing to open-source infrastructure tools and writing about systems design.</p>
               <div style={{ display: "flex", gap: isMobile ? 8 : 12, marginTop: 24, justifyContent: isMobile ? "center" : "flex-start" }}>
-                {[{ I: FiGithub, c: "#e9d8fd" }, { I: FiLinkedin, c: "#60a5fa" }, { I: FiTwitter, c: "#38bdf8" }, { I: FiMail, c: "#c084fc" }].map(({ I, c }, idx) => (
-                  <div key={idx} style={{ width: isMobile ? 32 : 36, height: isMobile ? 32 : 36, borderRadius: "50%", background: "rgba(120,60,200,0.15)", border: "1px solid rgba(160,80,255,0.22)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "all 0.2s" }}
+                {socialLinks.map(({ I, c, href, label }, idx) => (
+                  <a
+                    key={idx}
+                    href={href}
+                    aria-label={label}
+                    target={href.startsWith("http") ? "_blank" : undefined}
+                    rel={href.startsWith("http") ? "noreferrer" : undefined}
+                    style={{ textDecoration: "none" }}
+                  >
+                  <div style={{ width: isMobile ? 32 : 36, height: isMobile ? 32 : 36, borderRadius: "50%", background: "rgba(120,60,200,0.15)", border: "1px solid rgba(160,80,255,0.22)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "all 0.2s" }}
                     onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(140,60,255,0.28)"; e.currentTarget.style.borderColor = "rgba(160,80,255,0.5)"; }}
                     onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(120,60,200,0.15)"; e.currentTarget.style.borderColor = "rgba(160,80,255,0.22)"; }}>
                     {createElement(I, { size: isMobile ? 14 : 16, color: c })}
                   </div>
+                  </a>
                 ))}
               </div>
             </Card>
