@@ -857,7 +857,7 @@ const PROJECTS = [
   },
 ];
 
-function InputField({ label, type = "text", multiline = false }) {
+function InputField({ label, type = "text", multiline = false, value = "", onChange, name = "" }) {
   const [focus, setFocus] = useState(false);
   const style = {
     width: "100%",
@@ -879,7 +879,27 @@ function InputField({ label, type = "text", multiline = false }) {
   return (
     <div style={{ marginBottom: 16 }}>
       <label style={{ display: "block", fontFamily: "'DM Mono', monospace", fontSize: 10, letterSpacing: 3, color: "rgba(180,120,255,0.55)", marginBottom: 6, textTransform: "uppercase" }}>{label}</label>
-      {multiline ? <textarea rows={5} style={style} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} /> : <input type={type} style={style} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} />}
+      {multiline ? (
+        <textarea
+          rows={5}
+          name={name}
+          value={value}
+          onChange={onChange}
+          style={style}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
+        />
+      ) : (
+        <input
+          type={type}
+          name={name}
+          value={value}
+          onChange={onChange}
+          style={style}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
+        />
+      )}
     </div>
   );
 }

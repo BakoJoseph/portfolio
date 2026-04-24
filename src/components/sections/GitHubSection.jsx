@@ -9,6 +9,7 @@ export default function GitHubSection({ RevealSection, SectionLabel, TiltCard, G
   const Tilt = TiltCard;
   const Card = GlassCard;
   const Graph = GitHubGrid;
+  const openLink = (url) => window.open(url, "_blank", "noopener,noreferrer");
 
   return (
     <section id="github" style={{ minHeight: "100vh", padding: "120px 5vw 80px", scrollMarginTop: 96 }}>
@@ -79,7 +80,10 @@ export default function GitHubSection({ RevealSection, SectionLabel, TiltCard, G
               }
             ].map((p, i) => (
               <Tilt key={p.name} intensity={5}>
-                <Card key={p.name} style={{ padding: "18px 20px", animation: `fadeInUp 0.4s ${0.4 + i * 0.08}s both`, cursor: "pointer" }}
+                <Card
+                  key={p.name}
+                  onClick={() => openLink(p.github)}
+                  style={{ padding: "18px 20px", animation: `fadeInUp 0.4s ${0.4 + i * 0.08}s both`, cursor: "pointer" }}
                   onMouseEnter={(e) => { e.currentTarget.style.boxShadow = `0 0 50px ${p.color}2a, inset 0 1px 0 rgba(255,255,255,0.07)`; }}
                   onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04)"; }}
                 >
@@ -100,6 +104,28 @@ export default function GitHubSection({ RevealSection, SectionLabel, TiltCard, G
                         <t.Icon size={9} /> {t.name}
                       </span>
                     ))}
+                  </div>
+                  <div style={{ display: "flex", gap: 10 }}>
+                    <button
+                      type="button"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        openLink(p.github);
+                      }}
+                      style={{ display: "flex", alignItems: "center", gap: 6, fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: 1.5, background: `${p.color}18`, border: `1px solid ${p.color}44`, color: p.color, padding: "7px 14px", borderRadius: 999, cursor: "pointer" }}
+                    >
+                      <SiGithub size={12} /> Code
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        openLink(p.live);
+                      }}
+                      style={{ display: "flex", alignItems: "center", gap: 6, fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: 1.5, background: "transparent", border: "1px solid rgba(160,80,255,0.2)", color: "rgba(200,160,255,0.75)", padding: "7px 14px", borderRadius: 999, cursor: "pointer" }}
+                    >
+                      <FaArrowUpRightFromSquare size={11} /> Live
+                    </button>
                   </div>
                 </Card>
               </Tilt>

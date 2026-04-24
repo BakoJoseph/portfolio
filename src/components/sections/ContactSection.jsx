@@ -9,6 +9,29 @@ export default function ContactSection({ RevealSection, SectionLabel, GlassCard,
   const Field = InputField;
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((current) => ({ ...current, [name]: value }));
+  };
+
+  const handleSendMessage = () => {
+    const subject = formData.subject.trim() || "Portfolio inquiry";
+    const body = [
+      `Name: ${formData.name.trim() || "-"}`,
+      `Email: ${formData.email.trim() || "-"}`,
+      "",
+      formData.message.trim() || "Hi Olamide,",
+    ].join("\n");
+
+    window.location.href = `mailto:bakocodex@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
   
   useEffect(() => {
     const checkScreenSize = () => {
@@ -74,18 +97,20 @@ export default function ContactSection({ RevealSection, SectionLabel, GlassCard,
             </div>
             <div className="contact-form-grid" style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, minmax(0, 1fr))", gap: isMobile ? 12 : 14, alignItems: "start" }}>
               <div>
-                <Field label="Name" />
+                <Field label="Name" name="name" value={formData.name} onChange={handleChange} />
               </div>
               <div>
-                <Field label="Email" type="email" />
+                <Field label="Email" type="email" name="email" value={formData.email} onChange={handleChange} />
               </div>
               <div>
-                <Field label="Subject" />
+                <Field label="Subject" name="subject" value={formData.subject} onChange={handleChange} />
               </div>
               <div style={{ gridColumn: "1 / -1" }}>
-                <Field label="Message" multiline />
+                <Field label="Message" multiline name="message" value={formData.message} onChange={handleChange} />
               </div>
               <button
+                type="button"
+                onClick={handleSendMessage}
                 style={{ gridColumn: "1 / -1", justifySelf: "center", width: isMobile ? "70%" : "50%", padding: isMobile ? "12px" : "14px", borderRadius: 20, background: "linear-gradient(135deg,#7b2fff,#c084fc)", border: "none", color: "#fff", fontFamily: "'DM Mono', monospace", fontSize: isMobile ? 12 : 13, letterSpacing: 3, boxShadow: "0 0 30px rgba(140,60,255,0.28)", transition: "all 0.2s", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.boxShadow = "0 0 50px rgba(160,80,255,0.48)";
